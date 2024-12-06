@@ -14,7 +14,7 @@ const Page = () => {
     <div>
       <Navbar />
       <SidebarProvider>
-        <AppSidebar />
+        
         <Details name={name || "Unknown"} />
       </SidebarProvider>
     </div>
