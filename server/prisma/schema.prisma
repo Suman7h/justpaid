@@ -1,0 +1,53 @@
+// Define the datasource and generator
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql" 
+  url      = env("DATABASE_URL") 
+}
+
+// User Table
+model User {
+  userId    Int       @id @default(autoincrement()) 
+  username  String     
+  password  String
+  email     String    @unique
+  reviews   Review[]  
+  
+}
+
+// Expert Table
+model Expert {
+  expertId          Int       @id @default(autoincrement()) 
+  expertName        String
+  password          String
+  email             String    @unique
+  companyName       String
+  introduction      String
+  estimatedPrice    Float
+  yearsInService    Int
+  numOfEmployees    Int
+  businessHours     Json      
+  paymentMethods    String[]
+  background        String?
+  similarJobsNearYou Int
+  categories        String[]
+  reviews           Review[]  
+
+}
+
+// Review Table
+model Review {
+  reviewId      Int      @id @default(autoincrement()) 
+  expert        Expert   @relation(fields: [expertId], references: [expertId])
+  expertId      Int      
+  numOfStars Int @default(5) 
+  review        String
+  user          User     @relation(fields: [userId], references: [userId])
+  userId        Int      
+  dateOfReview  DateTime @default(now())
+}
+
+
